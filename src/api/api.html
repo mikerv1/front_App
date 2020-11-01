@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+    <!--
+      manifest.json provides metadata used when your web app is added to the
+      homescreen on Android. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>MyProject</title>
+  </head>
+  <body>
+<script>
+const api = {
+  get(url) {
+    switch (url) {
+      case "/lots":
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve([
+              {
+                id: 1,
+                name: "Apple",
+                description: "Apple description",
+                price: 16,
+                favorite: true,
+              },
+              {
+                id: 2,
+                name: "Orange",
+                description: "Orange description",
+                price: 41,
+                favorite: false,
+              },
+            ]);
+          }, 1000);
+        });
+      default:
+        throw new Error("Unknown address");
+    }
+  },
+  post(url) {
+    if (/^\/lots\/(\d+)\/favorite$/.exec(url)) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({});
+        }, 500);
+      });
+    }
+    if (/^\/lots\/(\d+)\/unfavorite$/.exec(url)) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({});
+        }, 500);
+      });
+    }
+    throw new Error("Unknown address");
+  },
+};
+
+// const stream = {
+//   subscribe(channel, listener) {
+//     const match = /price-(\d+)/.exec(channel);
+//     if (match) {
+//       setInterval(() => {
+//         listener({
+//           id: parseInt(match[1]),
+//           price: Math.round(Math.random() * 10 + 30),
+//         });
+//       }, 400);
+//     }
+//   },
+// };
+
+// ###############use###############
+
+const favorite = (id) => {
+    api.post(`/lots/${id}/favorite`).then(() => {
+      dispatch(favoriteLot(id))
+    })
+  }
+
+{# console.log(favorite) #}
+</script>
+</body>
+</html>
