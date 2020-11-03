@@ -11,7 +11,6 @@ import Button from '@material-ui/core/Button'
 // import SwipeDialog from "./dialogs/SwipeDialog";
 import Header from "./Header";
 import StickyFooter from "./StickyFooter";
-// import StickyFooter from "./StickyFooter";
 
 // const backgroundShape = require("../images/shape.svg");
 

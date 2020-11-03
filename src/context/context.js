@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 
 export const sections = [
-    { title: 'Technology', url: '/' },
+    { title: 'Technology', url: '/login' },
     { title: 'Design', url: '/' },
     { title: 'Culture', url: '/' },
     { title: 'Business', url: '/' },

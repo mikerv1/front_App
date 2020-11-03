@@ -1,11 +1,12 @@
 import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
+import { Link, withRouter } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
+// import Link from "@material-ui/core/Link";
 import { HeaderContext } from "../context/context";
 import MenuIcon from "@material-ui/icons/Menu";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
@@ -16,6 +17,8 @@ import { Link as MaterialLink } from "@material-ui/core";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import Divider from "@material-ui/core/Divider";
+
+import {sections} from "../context/context" //передача массива меню
 
 const drawerWidth = 150;
 
@@ -39,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
   toolbarLink: {
     padding: theme.spacing(1),
     flexShrink: 0,
+    outline: "none",
+    textDecoration: "none",
+    color: "black"
   },
   iconContainer: {
     display: "none",
@@ -66,6 +72,10 @@ const useStyles = makeStyles((theme) => ({
     ...theme.mixins.toolbar,
     justifyContent: "flex-start",
   },
+  links: {
+    outline: "none",
+    textDecoration: "none",
+  }
 }));
 
 export default function Header() {
@@ -80,8 +90,9 @@ export default function Header() {
   const mobileMenuClose = () => {
     setMenuDrawer(false);
   };
-
-  const { sections, featuredPosts } = useContext(HeaderContext);
+// const sections = section
+  // console.log(sections)
+  // const { sections, featuredPosts } = useContext(HeaderContext);
 
   return (
     <>
@@ -103,9 +114,11 @@ export default function Header() {
         <Button className={classes.buttonsSign} variant="outlined" size="small">
           Sign up
         </Button>
+        <Link className={classes.links} to="/login">
         <Button className={classes.buttonsSign} variant="outlined" size="small">
           Sign in
         </Button>
+        </Link>
       </Toolbar>
       <Toolbar
         component="nav"
@@ -114,11 +127,12 @@ export default function Header() {
       >
         {sections.map((section) => (
           <Link
-            color="inherit"
-            noWrap
+            // color="inherit"
+            // noWrap
             key={section.title}
             variant="body2"
             href={section.url}
+            to={section.url}
             className={classes.toolbarLink}
           >
             {section.title}
