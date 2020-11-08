@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -18,6 +18,9 @@ import { withRouter } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 import Controls from "../controls/Controls";
 import useForm from '../useForm';
+
+import { useDispatch, useSelector } from "react-redux";
+import { login } from '../../../store/actions/userActions'
 
 function Copyright() {
   return (
@@ -58,7 +61,7 @@ const initialFValues = {
   isPermanent: false
 }
 
-function LoginPage() {
+function LoginPage({ location, history }) {
   const classes = useStyles();
   // const [isLoggedIn, setLoggedIn] = useState(false);
   // const [isError, setIsError] = useState(false);
@@ -79,9 +82,10 @@ function LoginPage() {
   // if (isLoggedIn) {
   //   return <Redirect to='/blog' />;
   // }
-
-  
-
+  const dispatch = useDispatch();
+  const userLogin = useSelector((state) => state.userLogin);
+  const {loading, error, userInfo } = userLogin;
+console.log(userLogin)
   const validate = (fieldValues = values) => {
     let temp = { ...errors }
     // if ('fullName' in fieldValues)
@@ -115,10 +119,33 @@ function LoginPage() {
     e.preventDefault()
     if (validate()){
       console.log('valid')
-        // employeeService.insertEmployee(values)
-        // resetForm()
+      // console.log('dispatch: ', dispatch)
+      dispatch(login(values.email, values.password))
     }
   }
+
+  // const redirect = location.search
+  // ? location.search.split("=")[1]
+  // : "/"
+  useEffect(() => {
+      if (userInfo) {
+        console.log(userLogin)
+      }
+    }, [userInfo])
+
+  // useEffect(() => {
+  //   if (userInfo) {
+  //     history.push(redirect)
+  //   }
+  // }, [history, userInfo, redirect])
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault()
+  //   if (validate()){
+  //     console.log('valid')
+  //     await dispatch(login(values.email, values.password))
+  //   }
+  // }
 
   return (
     <Container component="main" maxWidth="xs">
