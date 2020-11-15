@@ -1,6 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Link, withRouter } from "react-router-dom";
+import { Link,
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    withRouter } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
@@ -17,8 +21,11 @@ import { Link as MaterialLink } from "@material-ui/core";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import Divider from "@material-ui/core/Divider";
-
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from '../store/actions/userActions'
 import {sections} from "../context/context" //передача массива меню
+import { routes } from "../context/context"
+import { useHistory } from "react-router-dom";
 
 const drawerWidth = 150;
 
@@ -78,10 +85,14 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Header() {
+export default function Header(location) {
   const classes = useStyles();
   const theme = useTheme();
   const [menuDrawer, setMenuDrawer] = useState(false);
+
+  const dispatch = useDispatch();
+  const userLogin = useSelector((state) => state.userLogin);
+  const {loading, error, userInfo } = userLogin;
 
   const mobileMenuOpen = () => {
     setMenuDrawer(true);
@@ -93,6 +104,15 @@ export default function Header() {
 // const sections = section
   // console.log(sections)
   // const { sections, featuredPosts } = useContext(HeaderContext);
+
+  const logoutHendler = () => {
+    // e.preventDefault()
+    dispatch(logout())
+    }
+  
+    let history = useHistory();
+
+    console.log(history.location.pathname)
 
   return (
     <>
@@ -106,36 +126,63 @@ export default function Header() {
           noWrap
           className={classes.toolbarTitle}
         >
-          {sections[0].title}
+          {/* {history.location.pathname == "/" ? ("Main") : (history.location.pathname)} */}
+          {/* {sections[0].title} */}
+          <Switch>
+            {routes.map((route, index) => (
+              <Route
+                key={index}
+                path={route.path}
+                exact={route.exact}
+                children={<route.main />}
+              />
+            ))}
+          </Switch>
         </Typography>
         {/* <IconButton>
           <SearchIcon />
         </IconButton> */}
-        <Button className={classes.buttonsSign} variant="outlined" size="small">
-          Sign up
-        </Button>
-        <Link className={classes.links} to="/login">
-        <Button className={classes.buttonsSign} variant="outlined" size="small">
-          Sign in
-        </Button>
-        </Link>
+         { userInfo ? (
+          //  <Link className={classes.links} to="/login">
+           <Button className={classes.buttonsSign}
+              variant="outlined"
+              size="small" 
+              onClick={logoutHendler}>
+             Log out
+           </Button>
+          //  </Link>
+         ) : (
+          <>
+            <Link className={classes.links} to="/login">
+              <Button className={classes.buttonsSign} variant="outlined" size="small">
+                Sign up
+              </Button>
+            </Link>
+            <Link className={classes.links} to="/login">
+              <Button className={classes.buttonsSign} variant="outlined" size="small">
+                Sign in
+              </Button>
+            </Link>
+          </>
+         )}
       </Toolbar>
       <Toolbar
         component="nav"
         variant="dense"
         className={classes.toolbarSecondary}
       >
-        {sections.map((section) => (
+        {routes.map((route, index) => (
           <Link
             // color="inherit"
             // noWrap
-            key={section.title}
+            key={index}
             variant="body2"
-            href={section.url}
-            to={section.url}
+            href={route.path}
+            to={route.path}
             className={classes.toolbarLink}
           >
-            {section.title}
+            {route.title}
+            {/* {section.title} */}
           </Link>
         ))}
       </Toolbar>
@@ -170,26 +217,44 @@ export default function Header() {
             </IconButton>
           </div>
           <Divider />
-          <List>
-            {sections.map((section, index) => (
+          {/* <List>
+            {routes.map((route, index) => (
+              
               <ListItem
-                component={section.title ? MaterialLink : Link}
-                href={section.title ? section.url : null}
+              
+                component={route.title ? MaterialLink : Link}
+                href={route.path ? route.path : null}
                 to={
-                  section.title
+                  route.path
                     ? null
                     : {
-                        pathname: section.url,
+                        pathname: route.path,
                         // search: this.props.location.search
                       }
                 }
                 button
-                key={section.title}
+                key={route.title}
               >
-                {section.title}
+                {route.title}
+              
               </ListItem>
+              
             ))}
-          </List>
+          </List> */}
+          {routes.map((route, index) => (
+          <Link
+            // color="inherit"
+            // noWrap
+            key={index}
+            variant="body2"
+            href={route.path}
+            to={route.path}
+            className={classes.toolbarLink}
+          >
+            {route.title}
+            {/* {section.title} */}
+          </Link>
+        ))}
         </SwipeableDrawer>
       </div>
     </>
@@ -197,5 +262,5 @@ export default function Header() {
 }
 
 Header.propTypes = {
-  sections: PropTypes.array
+  routes: PropTypes.array
 };

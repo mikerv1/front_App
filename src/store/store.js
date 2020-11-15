@@ -24,23 +24,3 @@ const store = createStore(
 );
 
 export default store;
-
-// const userLoginReducer = (state = {}, action) => {
-//     switch (action.type) {
-//         //
-//       default:
-//         return state
-//     }
-//   }
-
-//   const reducer = combineReducers({
-//     userLogin: userLoginReducer})
-
-
-// const reducer = () => {};
-
-// // const initialState = {};
-
-// const store = createStore(reducer);
-
-// export default store;

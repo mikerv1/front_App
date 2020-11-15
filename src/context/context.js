@@ -33,3 +33,36 @@ export const sections = [
   ]
 
 export const HeaderContext = createContext()
+
+export const routes = [
+  {
+    path: "/",
+    exact: true,
+    title: "News",
+    main: () => "News"
+  },
+  {
+    path: "/design",
+    exact: true,
+    title: "Design",
+    main: () => "Design"
+  },
+  {
+    path: "/charts",
+    exact: true,
+    title: "Charts",
+    main: () => "Charts"
+  },
+  {
+    path: "/blog",
+    exact: true,
+    title: "Blog",
+    main: () => "Blog"
+  },
+  {
+    path: "/programming",
+    exact: true,
+    title: "Programming",
+    main: () => "Programming"
+  }
+]

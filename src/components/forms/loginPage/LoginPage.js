@@ -85,7 +85,7 @@ function LoginPage({ location, history }) {
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const {loading, error, userInfo } = userLogin;
-console.log(userLogin)
+console.log('userLogin_1', userLogin)
   const validate = (fieldValues = values) => {
     let temp = { ...errors }
     // if ('fullName' in fieldValues)
@@ -127,11 +127,15 @@ console.log(userLogin)
   // const redirect = location.search
   // ? location.search.split("=")[1]
   // : "/"
+  console.log("location", location)
+  console.log("history", history)
+
   useEffect(() => {
       if (userInfo) {
-        console.log(userLogin)
+        console.log('userLogin_2', userLogin)
+        history.push("/")
       }
-    }, [userInfo])
+    }, [history, userInfo])
 
   // useEffect(() => {
   //   if (userInfo) {

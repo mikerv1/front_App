@@ -17,15 +17,18 @@ export const login = (email, password) => {
     dispatch(fetchLoginRequest())
     apiPost(email, password)
       .then(response => {
-        const token = response.token
+        // const token = response
         // setTimeout(() => {  // to emulate some network delay
-          dispatch(fetchLoginSuccess(token))
-          localStorage.setItem("authToken", token)
-          console.log(localStorage.getItem("authToken"))
+
+          dispatch(fetchLoginSuccess(response))
+          console.log('response', response)
+          localStorage.setItem("userInfo", JSON.stringify(response))
+          localStorage.setItem("authToken", response.token)
         // }, 2000)
       })
       .catch(error => {
         dispatch(fetchLoginFailure(error.message))
+        // console.log('error', error.message)
       })
   }
 }
@@ -36,10 +39,10 @@ export const fetchLoginRequest = () => {
   }
 }
 
-export const fetchLoginSuccess = token => {
+export const fetchLoginSuccess = response => {
   return {
     type: USER_LOGIN_SUCCESS,
-    payload: token
+    payload: response
   }
 }
 

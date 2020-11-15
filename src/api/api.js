@@ -17,9 +17,14 @@ export const apiPost = (email, password) => {
       setTimeout(() => {
         resolve(
           {
-            token: "1234567890"
+            token: "1234567890",
+            role: "admin",
+            date: "08.11.2020"
           }
-        );
+        )
+        // reject(
+        //   new Error("error!!!!")
+        // )
       }, 1000);
   })
 }
