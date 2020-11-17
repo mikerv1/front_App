@@ -153,7 +153,7 @@ export default function Header(location) {
           //  </Link>
          ) : (
           <>
-            <Link className={classes.links} to="/login">
+            <Link className={classes.links} to="/signup">
               <Button className={classes.buttonsSign} variant="outlined" size="small">
                 Sign up
               </Button>
