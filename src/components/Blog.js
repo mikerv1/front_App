@@ -100,7 +100,7 @@ const useStyles = makeStyles((theme) => ({
   
 }))
 
-export default function Charts() {
+export default function Blog() {
   const classes = useStyles()
   
   // openDialog = event => {

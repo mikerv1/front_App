@@ -112,6 +112,13 @@ export default function Header(location) {
   
     let history = useHistory();
 
+    // useEffect(() => {
+    //   if (history) {
+    //     console.log('userLogin_2', userLogin)
+    //     history.push("/")
+    //   }
+    // }, [history, userInfo])
+
     console.log(history.location.pathname)
 
   return (

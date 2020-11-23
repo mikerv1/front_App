@@ -12,25 +12,24 @@ import {
 
 // import setAuthToken from "../../utils/setAuthToken";
 
-export const login = (email, password) => {
-  return (dispatch) => {
-    dispatch(fetchLoginRequest())
-    apiPost(email, password)
-      .then(response => {
-        // const token = response
-        // setTimeout(() => {  // to emulate some network delay
+export const login = (email, password) => (dispatch) => {
+  dispatch(fetchLoginRequest())
+  apiPost(email, password)
+    .then(response => {
+      // const token = response
+      // setTimeout(() => {  // to emulate some network delay
 
-          dispatch(fetchLoginSuccess(response))
-          console.log('response', response)
-          localStorage.setItem("userInfo", JSON.stringify(response))
-          localStorage.setItem("authToken", response.token)
-        // }, 2000)
-      })
-      .catch(error => {
-        dispatch(fetchLoginFailure(error.message))
-        // console.log('error', error.message)
-      })
-  }
+        dispatch(fetchLoginSuccess(response))
+        console.log('response', response)
+        localStorage.setItem("userInfo", JSON.stringify(response))
+        localStorage.setItem("authToken", response.token)
+      // }, 2000)
+    })
+    .catch(error => {
+      dispatch(fetchLoginFailure(error.message))
+      // console.log('error', error.message)
+    })
+  
 }
 
 export const fetchLoginRequest = () => {
@@ -91,20 +90,11 @@ export const fetchLoginFailure = error => {
 //   }
 // };
 
-
-
-
-
-
-
-
-
-
 export const logout = () => (dispatch) => {
   localStorage.removeItem("userInfo");
   localStorage.removeItem("authToken");
   dispatch({ type: USER_LOGOUT });
-  document.location.href = "/login";
+  document.location.href = "/";
 };
 
 export const register = (username, email, password) => async (dispatch) => {
