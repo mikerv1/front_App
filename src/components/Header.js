@@ -26,7 +26,7 @@ import { logout } from '../store/actions/userActions'
 import {sections} from "../context/context" //передача массива меню
 import { routes } from "../context/context"
 import { useHistory } from "react-router-dom";
-
+import {useScrollTrigger} from "@material-ui/core";
 const drawerWidth = 150;
 
 const useStyles = makeStyles((theme) => ({
@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbarTitle: {
     flex: 1,
+    color: "black"
   },
   toolbarSecondary: {
     justifyContent: "space-between",
@@ -82,6 +83,9 @@ const useStyles = makeStyles((theme) => ({
   links: {
     outline: "none",
     textDecoration: "none",
+  },
+  backColor: {
+    backgroundColor: theme.palette.grey[50]
   }
 }));
 
@@ -119,10 +123,15 @@ export default function Header(location) {
     //   }
     // }, [history, userInfo])
 
+    const trigger = useScrollTrigger({
+      disableHysteresis: true,
+      threshold: 0
+    })
     console.log(history.location.pathname)
 
   return (
     <>
+    <AppBar elevation={trigger ? 4 : 0} className={classes.backColor}>
       <Toolbar className={classes.toolbar}>
         <Button size="small">Subscribe</Button>
         <Typography
@@ -197,7 +206,7 @@ export default function Header(location) {
         <IconButton
           onClick={mobileMenuOpen}
           className={classes.iconButton}
-          color="inherit"
+          color="default"
           aria-label="Menu"
         >
           <MenuIcon />
@@ -264,6 +273,7 @@ export default function Header(location) {
         ))}
         </SwipeableDrawer>
       </div>
+      </AppBar>
     </>
   );
 }

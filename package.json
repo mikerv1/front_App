@@ -40,6 +40,10 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
+    "@nivo/axes": "^0.65.1",
+    "@nivo/core": "^0.65.0",
+    "@nivo/line": "^0.65.1",
+    "@reach/router": "^1.3.4",
     "clsx": "^1.1.1",
     "history": "^5.0.0",
     "react-redux": "^7.2.2",

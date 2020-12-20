@@ -30,8 +30,9 @@ const useStyles = makeStyles((theme) => ({
     // paddingTop: 40
   },
   siteContent: {
-    flex: 1
+    flex: 1,
   },
+
   grid: {
     width: 1200,
     marginTop: 40,
