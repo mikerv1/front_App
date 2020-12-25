@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState, useEffect } from 'react'
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -8,12 +8,10 @@ import GitHubIcon from "@material-ui/icons/GitHub";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import TwitterIcon from "@material-ui/icons/Twitter";
 
-import { usePostsStore } from '../../store/marginaliaStore/store'
-import Header from "../Header";
+import { PostsContext } from '../../store/marginaliaStore/store'
 import Sidebar from "../marginalia/Sidebar"
 import FeaturedPost from "../marginalia/FeaturedPost"
-import StickyFooter from "../StickyFooter"
-import {loadPosts} from "../../store/marginaliaStore/actions"
+import { getPosts } from "../../store/marginaliaStore/actions"
 
 const useStyles = makeStyles((theme) => ({
   mainGrid: {
@@ -24,20 +22,22 @@ const useStyles = makeStyles((theme) => ({
 export default function RenderContent() {
   const classes = useStyles();
 
-const [state, dispatch] = usePostsStore();
+const { state, dispatch } = useContext(PostsContext)
+const [loadPosts, setLoadPosts] = useState({
+  loading: false,
+  loaded: false,
+  error: false
+})
 
-console.log("statePosts", state.loaded)
-console.log("dispatchStore", typeof dispatch)
-console.log("loadPosts", loadPosts)
+// console.log(dispatch(getPosts))
 
 useEffect(() => {
- if (!state.loaded) {
-   console.log('!state.loaded')
-   dispatch(loadPosts())
- }
-}, [state])
+  if (!state.loaded) {
+    dispatch(getPosts)
+  }
+}, [])
 
-// console.log("statePosts", state)
+console.log("statePosts1", state)
 
   return (
     <>
@@ -62,6 +62,7 @@ useEffect(() => {
         </main>
       </Container>
       {/* <StickyFooter /> */}
+      
       </>
   );
 }
@@ -71,22 +72,22 @@ const sidebar = {
     description:
       'Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.',
     archives: [
-    //   { title: 'March 2020', url: '#' },
-    //   { title: 'February 2020', url: '#' },
-    //   { title: 'January 2020', url: '#' },
-    //   { title: 'November 1999', url: '#' },
-    //   { title: 'October 1999', url: '#' },
-    //   { title: 'September 1999', url: '#' },
-    //   { title: 'August 1999', url: '#' },
-    //   { title: 'July 1999', url: '#' },
-    //   { title: 'June 1999', url: '#' },
-    //   { title: 'May 1999', url: '#' },
-    //   { title: 'April 1999', url: '#' },
+      { title: 'March 2020', url: '#' },
+      { title: 'February 2020', url: '#' },
+      { title: 'January 2020', url: '#' },
+      { title: 'November 1999', url: '#' },
+      { title: 'October 1999', url: '#' },
+      { title: 'September 1999', url: '#' },
+      { title: 'August 1999', url: '#' },
+      { title: 'July 1999', url: '#' },
+      { title: 'June 1999', url: '#' },
+      { title: 'May 1999', url: '#' },
+      { title: 'April 1999', url: '#' },
     ],
     social: [
-    //   { name: 'GitHub', icon: GitHubIcon },
-    //   { name: 'Twitter', icon: TwitterIcon },
-    //   { name: 'Facebook', icon: FacebookIcon },
+      { name: 'GitHub', icon: GitHubIcon },
+      { name: 'Twitter', icon: TwitterIcon },
+      { name: 'Facebook', icon: FacebookIcon },
     ],
   };
 

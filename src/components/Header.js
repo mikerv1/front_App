@@ -105,9 +105,6 @@ export default function Header(location) {
   const mobileMenuClose = () => {
     setMenuDrawer(false);
   };
-// const sections = section
-  // console.log(sections)
-  // const { sections, featuredPosts } = useContext(HeaderContext);
 
   const logoutHendler = () => {
     // e.preventDefault()
@@ -116,18 +113,11 @@ export default function Header(location) {
   
     let history = useHistory();
 
-    // useEffect(() => {
-    //   if (history) {
-    //     console.log('userLogin_2', userLogin)
-    //     history.push("/")
-    //   }
-    // }, [history, userInfo])
-
     const trigger = useScrollTrigger({
       disableHysteresis: true,
       threshold: 0
     })
-    console.log(history.location.pathname)
+    console.log("path", history.location.pathname)
 
   return (
     <>

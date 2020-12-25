@@ -1,60 +1,30 @@
-import React, { createContext, useContext, useState, useReducer } from "react";
+import React, { createContext, useReducer } from "react";
 import {
   POSTS_LOADING,
   POSTS_LOADED,
   POSTS_FAIL
 } from '../marginaliaStore/actions'
 
-// const TodosContext = createContext([]);
-
-// const reducer = (state = [], action = {}) => {
-//   return {
-//     ...state,
-//     newState: true
-//   };
-// };
-
-// export function TodosProvider({ children, todos }) {
-  /**
-   * todos - начальное состояние
-   * reducer - редьюсер
-   * dispatch - метод, принимающий action
-   * state - состояние, изменяемое reducerом
-   */
-//   const [state, dispatch] = useReducer(reducer, todos);
-//   console.log('state', state)
-//   console.log('dispatch', dispatch)
-//   return (
-//     <TodosContext.Provider value={[state, dispatch]}>
-//       {children}
-//     </TodosContext.Provider>
-//   );
-// }
-
-// export const useTodosStore = () => useContext(TodosContext);
-
-// #########################################################
-
-const postsInitialState = {
+export const postsInitialState = {
   posts: [],
   loading: false,
   loaded: false,
   error: false
 }
 
-const PostsContext = createContext({})
+export const PostsContext = createContext()
 
-const postsReducer = (state = postsInitialState, action) => {
+export const postsReducer = (state, action) => {
   switch (action.type) {
     case POSTS_LOADING:
         return {
           ...state,
-          loading: true,
-          posts: action.payload
+          loading: true
         }
     case POSTS_LOADED:
       return {
         ...state,
+        loading: false,
         loaded: true,
         posts: action.payload
       }
@@ -70,15 +40,34 @@ const postsReducer = (state = postsInitialState, action) => {
   }
 }
 
-export function PostsProvider({ children }) {
-  const [state, dispatch] = useReducer(postsReducer, postsInitialState)
-  //  console.log('state in PostProvider', dispatch)
+function isPromise(obj) {
   return (
-    <PostsContext.Provider value = {[state, dispatch]}>
-      {children}
-    </PostsContext.Provider>
-  )
+    !!obj &&
+    (typeof obj === "object" || typeof obj === "function") &&
+    typeof obj.then === "function"
+  );
 }
 
-export const usePostsStore = () => useContext(PostsContext)
+function wrapperDispatch(dispatch) {
+  return function(action) {
+    if (isPromise(action.payload)) {
+      dispatch({ type: POSTS_LOADING });
+      action.payload.then(data => {
+        dispatch({ type: action.type, payload: data });
+      });
+    } else {
+      dispatch(action);
+    }
+  };
+}
 
+export const PostsProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(postsReducer, postsInitialState) //postReducer from marginaliaStore/store.js
+  return (
+    <>
+    <PostsContext.Provider value = {{ state, dispatch: wrapperDispatch(dispatch) }}>
+      {children}
+    </PostsContext.Provider>
+    </>
+  )
+}
