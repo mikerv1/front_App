@@ -1,4 +1,4 @@
-export const apiPost = (email, password) => {
+export const $apiPost = (email, password) => {
   return new Promise((resolve) => {
       setTimeout(() => {
         resolve(
@@ -8,6 +8,27 @@ export const apiPost = (email, password) => {
             date: "08.11.2020"
           }
         )
+        // reject(
+        //   new Error("error!!!!")
+        // )
+      }, 1000);
+  })
+}
+
+export const apiPost = (id) => {
+  return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve([
+          {
+            id: 1,
+            title: "Featured post",
+            date: "Nov 12",
+            description:
+              "This is a wider card with supporting text below as a natural lead-in to additional content.",
+            image: "https://source.unsplash.com/random",
+            imageText: "Image Text",
+          }
+        ])
         // reject(
         //   new Error("error!!!!")
         // )

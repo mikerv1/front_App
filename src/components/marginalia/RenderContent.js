@@ -17,19 +17,19 @@ const useStyles = makeStyles((theme) => ({
   mainGrid: {
     marginTop: theme.spacing(3),
   },
+  topGrid: {
+    marginTop: theme.spacing(12),
+  },
 }));
 
 export default function RenderContent() {
   const classes = useStyles();
 
 const { state, dispatch } = useContext(PostsContext)
-const [loadPosts, setLoadPosts] = useState({
-  loading: false,
-  loaded: false,
-  error: false
-})
-
-// console.log(dispatch(getPosts))
+// const [posts, setPosts] = useState({
+//   posts: [],
+//   post: false
+// })
 
 useEffect(() => {
   if (!state.loaded) {
@@ -37,33 +37,39 @@ useEffect(() => {
   }
 }, [])
 
-console.log("statePosts1", state)
+const featuredPosts = state.posts
+
+//console.log("statePosts1", featuredPosts)
+console.log("statePostsAll", state)
 
   return (
     <>
       <CssBaseline />
       <Container maxWidth="lg">
-        {/* <Header /> */}
         <main>
-          <Grid container spacing={4}>
-            {/* {featuredPosts.map((post) => (
-              <FeaturedPost key={post.title} post={post} />
-            ))} */}
+          <Grid container spacing={4} className={classes.topGrid}>
+            {featuredPosts.map((post, idx) => (
+              // console.log("FeaturedPost", post.id)
+              <FeaturedPost key={idx} post={post} dispatch={dispatch} />
+            )
+            )
+          }
           </Grid>
-          <Grid container spacing={5} className={classes.mainGrid}>
-            {/* <Main title="From the firehose" posts={posts} /> */}
+          {/* <Grid container spacing={5} className={classes.mainGrid}>
+            <Main title="From the firehose" posts={posts} />
+            {featuredPosts.map((post, idx) => (
+              <FeaturedPost key={idx} post={post} />
+            ))}
             <Sidebar
               title={sidebar.title}
               description={sidebar.description}
               archives={sidebar.archives}
               social={sidebar.social}
             />
-          </Grid>
+          </Grid> */}
         </main>
       </Container>
-      {/* <StickyFooter /> */}
-      
-      </>
+    </>
   );
 }
 
@@ -90,5 +96,3 @@ const sidebar = {
       { name: 'Facebook', icon: FacebookIcon },
     ],
   };
-
-// const posts = [post1, post2, post3];

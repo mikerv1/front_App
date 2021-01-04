@@ -9,6 +9,9 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Hidden from '@material-ui/core/Hidden';
 
+import Button from '@material-ui/core/Button';
+import { getPost } from "../../store/marginaliaStore/actions"
+
 const useStyles = makeStyles({
   card: {
     display: 'flex',
@@ -19,11 +22,22 @@ const useStyles = makeStyles({
   cardMedia: {
     width: 160,
   },
+  links: {
+    outline: "none",
+    textDecoration: "none",
+  },
 });
 
 export default function FeaturedPost(props) {
   const classes = useStyles();
-  const { post } = props;
+  const { post, dispatch } = props;
+
+  const showPost = (e) => {
+    e.preventDefault()
+    dispatch(getPost(post.id))
+  }
+
+  console.log(post.id)
 
   return (
     <Grid item xs={12} md={6}>
@@ -43,6 +57,11 @@ export default function FeaturedPost(props) {
               <Typography variant="subtitle1" color="primary">
                 Continue reading...
               </Typography>
+                <Button variant="contained"
+                  size="small"
+                  onClick={showPost}>
+                    ShowPost
+                </Button>
             </CardContent>
           </div>
           <Hidden xsDown>
