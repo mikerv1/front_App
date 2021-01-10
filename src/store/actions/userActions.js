@@ -1,5 +1,5 @@
 // import axios from "axios";
-import { apiPost } from "../../api/api";
+import { apiUser } from "../../api/api";
 import {
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
@@ -13,52 +13,43 @@ import {
 // import setAuthToken from "../../utils/setAuthToken";
 
 export const login = (email, password) => (dispatch) => {
-  dispatch(fetchLoginRequest())
-  apiPost(email, password)
-    .then(response => {
+  dispatch(fetchLoginRequest());
+  apiUser(email, password)
+    .then((response) => {
       // const token = response
       // setTimeout(() => {  // to emulate some network delay
 
-        dispatch(fetchLoginSuccess(response))
-        console.log('response', response)
-        localStorage.setItem("userInfo", JSON.stringify(response))
-        localStorage.setItem("authToken", response.token)
+      dispatch(fetchLoginSuccess(response));
+      console.log("response", response);
+      localStorage.setItem("userInfo", JSON.stringify(response));
+      localStorage.setItem("authToken", response.token);
       // }, 2000)
     })
-    .catch(error => {
-      dispatch(fetchLoginFailure(error.message))
+    .catch((error) => {
+      dispatch(fetchLoginFailure(error.message));
       // console.log('error', error.message)
-    })
-  
-}
+    });
+};
 
 export const fetchLoginRequest = () => {
   return {
-    type: USER_LOGIN_REQUEST
-  }
-}
+    type: USER_LOGIN_REQUEST,
+  };
+};
 
-export const fetchLoginSuccess = response => {
+export const fetchLoginSuccess = (response) => {
   return {
     type: USER_LOGIN_SUCCESS,
-    payload: response
-  }
-}
+    payload: response,
+  };
+};
 
-export const fetchLoginFailure = error => {
+export const fetchLoginFailure = (error) => {
   return {
     type: USER_LOGIN_FAIL,
-    payload: error
-  }
-}
-
-
-
-
-
-
-
-
+    payload: error,
+  };
+};
 
 // export const login = (email, password) => async (dispatch) => {
 //   try {
@@ -69,7 +60,6 @@ export const fetchLoginFailure = error => {
 //     const { data } = await api.post(
 //       '/login', email, password
 //       )
-    
 
 //     dispatch({
 //       type: USER_LOGIN_SUCCESS,
